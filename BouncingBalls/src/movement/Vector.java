@@ -37,7 +37,23 @@ public class Vector {
         this.endY += moduleY;
     }
 
-    public void revert(){
+    public void reverse() {
+        double tmpX = this.beginX, tmpY = this.beginY;
+        this.beginX = this.endX;
+        this.beginY = this.endY;
+        this.endX = tmpX;
+        this.endY = tmpY;
+        countModules();
+    }
+    public void reflectByX(){
+        this.endX -= 2 * this.moduleX;
+        countModules();
+    }
+    public void reflectByY(){
+        this.endY -= 2 * this.moduleY;
+        countModules();
+    }
+    public void oppose(){
         this.endX -= 2 * this.moduleX;
         this.endY -= 2 * this.moduleY;
         countModules();
@@ -48,12 +64,13 @@ public class Vector {
         countModules();
     }
     public void multiply(double scalar){
-        this.endX *= scalar;
-        this.endY *= scalar;
-        countModules();
+        this.moduleX *= scalar;
+        this.moduleY *= scalar;
+        this.endX = this.beginX + this.moduleX;
+        this.endY = this.beginY + this.moduleY;
     }
 
-    public static Vector revert(Vector vector){
+    /*public static Vector revert(Vector vector){
         return new Vector(vector.getBeginX(), vector.getBeginY(), vector.getEndX() - 2 * vector.getModuleX(), vector.getEndY() - 2 * vector.getModuleY());
     }
     public static Vector add(Vector vector1, Vector vector2){
@@ -61,7 +78,7 @@ public class Vector {
     }
     public static Vector multiply(Vector vector1, double scalar){
         return new Vector(vector1.getBeginX(), vector1.getBeginY(), vector1.getEndX() * scalar, vector1.getEndY() * scalar);
-    }
+    }*/
 
     public double getBeginX() {
         return beginX;

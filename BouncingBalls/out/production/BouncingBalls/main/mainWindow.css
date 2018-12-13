@@ -1,0 +1,42 @@
+.root {
+    -fx-background-color: #333333;
+}
+
+.managementPanel {
+    -fx-background-color: #888888;
+
+    -fx-border-style: none;
+}
+
+.label {
+    -fx-font-weight: bold;
+    -fx-font-style: oblique;
+    -fx-font-size: 14;
+    -fx-text-fill: #333333;
+}
+
+.text-field {
+    -fx-background-color: #333333;
+
+    -fx-text-fill: #888888;
+}
+
+.button {
+    -fx-pref-width: 240;
+    -fx-pref-height: 50;
+
+    -fx-background-color: #333333;
+
+    -fx-font-size: 24;
+    -fx-font-weight: bold;
+    -fx-font-style: oblique;
+    -fx-text-fill: #888888;
+}
+
+.button:hover {
+    -fx-background-color: #000000;
+}
+
+.button:disabled {
+    -fx-opacity: 0.6;
+}

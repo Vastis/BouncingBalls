@@ -22,7 +22,7 @@ public class SimulationManager {
         this.graphicsContext = canvas.getGraphicsContext2D();
         this.simParams = simParams;
 
-        this.simEnvironment = new SimulationEnvironment(simParams);
+        this.simEnvironment = new SimulationEnvironment(canvas, simParams);
         this.canvasCleaner = new CanvasCleaner(canvas);
     }
 
