@@ -13,8 +13,15 @@ public class CollisionResponder {
         this.bounds = bounds;
     }
 
-    public void lowerBounce() {
+    public void verticalBounce() {
         ball.getDefiningVector().reverse();
         ball.getDefiningVector().multiply(bounds.getBounceCoefficient());
+        ball.getDefiningVector().reflectByY();
+    }
+
+    public void horizontalBounce(){
+        ball.getDefiningVector().reverse();
+        ball.getDefiningVector().multiply(bounds.getBounceCoefficient());
+        ball.getDefiningVector().reflectByX();
     }
 }

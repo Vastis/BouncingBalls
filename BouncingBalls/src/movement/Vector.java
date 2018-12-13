@@ -46,11 +46,11 @@ public class Vector {
         countModules();
     }
     public void reflectByX(){
-        this.endX -= 2 * this.moduleX;
+        this.endY -= 2 * this.moduleY;
         countModules();
     }
     public void reflectByY(){
-        this.endY -= 2 * this.moduleY;
+        this.endX -= 2 * this.moduleX;
         countModules();
     }
     public void oppose(){

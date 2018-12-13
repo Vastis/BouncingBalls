@@ -21,30 +21,16 @@ public class CollisionManager {
             //no collision
             case 0:
                 break;
-            //right collision
+            //right & left collision
             case 1:
+                collisionResponder.horizontalBounce();
                 break;
-            //left collision
+            //lower & upper collision
             case 2:
+                collisionResponder.verticalBounce();
                 break;
-            //lower collision
-            case 10:
-                collisionResponder.lowerBounce();
-                break;
-            //upper collision
-            case 20:
-                break;
-            //right-lower collision
-            case 11:
-                break;
-            //left-lower collision
-            case 12:
-                break;
-            //right-upper collision
-            case 21:
-                break;
-            //left-upper collision
-            case 22:
+            case 3:
+                //possible?
                 break;
         }
     }

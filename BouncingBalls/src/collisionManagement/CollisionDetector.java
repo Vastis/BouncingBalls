@@ -26,7 +26,7 @@ public class CollisionDetector {
             //if ball goes left check if it's gonna collide with left bound
             else {
                 if(ball.getDefiningVector().getEndX() <= bounds.getLeftBound())
-                    pX = 2;
+                    pX = 1;
             }
         }
 
@@ -36,12 +36,12 @@ public class CollisionDetector {
             //if ball goes down check if it's gonna collide with lower bound
             if(ball.getDefiningVector().getModuleY() > 0){
                 if(ball.getDefiningVector().getEndY() >= bounds.getLowerBound())
-                    pY = 10;
+                    pY = 2;
             }
             //if ball goes up check if it's gonna collide with upper bound
             else {
                 if(ball.getDefiningVector().getEndY() <= bounds.getUpperBound())
-                    pY = 20;
+                    pY = 2;
             }
         }
 

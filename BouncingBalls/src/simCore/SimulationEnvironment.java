@@ -41,18 +41,16 @@ public class SimulationEnvironment {
         this.gravity = new Gravity(simParams.getGravity());
     }
     private void setBounds() throws RangeException {
-        double bounceCoefficient = generator.nextDouble(0.8, 1.0);
+        double bounceCoefficient = generator.nextDouble(0.8, 0.99);
         this.bounds = new Bounds(canvas, bounceCoefficient);
     }
     private void generateBalls(){
         for(int i = 0; i < simParams.getLeftBalls(); i++){
-
+            balls.add(new Ball(false, simParams.getInitSpeed(), bounds, gravity));
         }
         for(int i = 0; i < simParams.getRightBalls(); i++){
-
+            balls.add(new Ball(true, simParams.getInitSpeed(), bounds, gravity));
         }
-
-        balls.add(new Ball(300, 0, bounds, gravity));
     }
 
     public void update(){
