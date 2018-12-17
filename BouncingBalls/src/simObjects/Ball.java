@@ -26,7 +26,7 @@ public class Ball {
     //beginX, beginY - current position
     //endX, endY - future position
     //moduleX, moduleY - "velocity"
-    private Vector  definingVector;
+    private Vector  definingVector, lastDefiningVector;
     private Ellipse ball;
 
     private BallTrajectoryFactory ballTrajectoryFactory;
@@ -34,14 +34,12 @@ public class Ball {
 
     private Bounds bounds;
     private Gravity gravity;
-    private PathTransition transition;
 
 
     public Ball(boolean startingRight, double initSpeedParam, Bounds bounds, Gravity gravity){
         this.bounds = bounds;
         this.gravity = gravity;
         this.boundsCollisionManager = new BoundsCollisionManager(this, bounds);
-        ballTrajectoryFactory = new BallTrajectoryFactory(this);
 
         initializeBall();
         setMovementParams(startingRight, initSpeedParam);
@@ -84,29 +82,30 @@ public class Ball {
         this.mass = ball.getRadiusX();
 
         this.definingVector = new Vector(posX, posY, posX + initSpeed, posY);
+        this.ballTrajectoryFactory = new BallTrajectoryFactory(this, bounds);
+        this.lastDefiningVector = new Vector(posX, posY, posX, posY);
     }
 
     public void update(){
         gravity.gravitize(this);
+        ballTrajectoryFactory.newTrajectory();
 
-        Path trajectory = ballTrajectoryFactory.getTrajectory();
-        trajectory = boundsCollisionManager.adjustTrajectory(trajectory);
-
-        try {
-            transition = ballTrajectoryFactory.getTransition(trajectory);
-            move();
-        } catch (NullPointerException e){
-            e.printStackTrace();
-        }
+        Path trajectory = boundsCollisionManager.adjustTrajectory();
+        move(trajectory);
     }
 
-    public void move(){
+    public void move(Path trajectory){
+        PathTransition transition = ballTrajectoryFactory.getTransition(trajectory);
         transition.play();
+        lastDefiningVector = definingVector.copy();
         definingVector.transfer();
     }
 
     public Vector getDefiningVector() {
         return definingVector;
+    }
+    public Vector getLastDefiningVector() {
+        return lastDefiningVector;
     }
 
     public Ellipse getBall() {

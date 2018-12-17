@@ -14,19 +14,16 @@ public class BoundsCollisionResponder {
         this.bounds = bounds;
     }
 
-    public Path verticalBounce(Path trajectory) {
-        ball.getDefiningVector().reverse();
-        ball.getDefiningVector().multiply(bounds.getBounceCoefficient());
-        ball.getDefiningVector().reflectByY();
-
-        return null;
+    public Path lowerBounce() {
+        return ball.getBallTrajectoryFactory().bounceTrajectory(bounds.getLowerBound(),false);
     }
-
-    public Path horizontalBounce(Path trajectory){
-        ball.getDefiningVector().reverse();
-        ball.getDefiningVector().multiply(bounds.getBounceCoefficient());
-        ball.getDefiningVector().reflectByX();
-
-        return null;
+    public Path upperBounce() {
+        return ball.getBallTrajectoryFactory().bounceTrajectory(bounds.getUpperBound(),false);
+    }
+    public Path rightBounce(){
+        return ball.getBallTrajectoryFactory().bounceTrajectory(bounds.getRightBound(),true);
+    }
+    public Path leftBounce(){
+        return ball.getBallTrajectoryFactory().bounceTrajectory(bounds.getLeftBound(),true);
     }
 }

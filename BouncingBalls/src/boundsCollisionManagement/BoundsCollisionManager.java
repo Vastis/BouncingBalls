@@ -6,10 +6,12 @@ import simObjects.Bounds;
 
 public class BoundsCollisionManager {
 
+    private Ball ball;
     private BoundsCollisionDetector boundsCollisionDetector;
     private BoundsCollisionResponder boundsCollisionResponder;
 
     public BoundsCollisionManager(Ball ball, Bounds bounds){
+        this.ball = ball;
         boundsCollisionDetector = new BoundsCollisionDetector(ball, bounds);
         boundsCollisionResponder = new BoundsCollisionResponder(ball, bounds);
     }
@@ -33,26 +35,25 @@ public class BoundsCollisionManager {
         }
     }*/
 
-    public Path adjustTrajectory(Path trajectory){
-        Path adjustedTrajectory = null;
+    public Path adjustTrajectory(){
         int collisionType = boundsCollisionDetector.detectBoundsCollision();
 
         //TODO
         switch (collisionType){
             //no collision
             case 0:
-                adjustedTrajectory = trajectory;
-                break;
+                return ball.getBallTrajectoryFactory().getTrajectory();
             //right & left collision
-            case 1: case 2:
-                adjustedTrajectory = boundsCollisionResponder.horizontalBounce(trajectory);
-                break;
+            case 1:
+                return boundsCollisionResponder.rightBounce();
+            case 2:
+                return boundsCollisionResponder.leftBounce();
             //lower & upper collision
-            case 3: case 4:
-                adjustedTrajectory = boundsCollisionResponder.verticalBounce(trajectory);
-                break;
+            case 3:
+                return boundsCollisionResponder.lowerBounce();
+            case 4:
+                return boundsCollisionResponder.upperBounce();
         }
-
-        return adjustedTrajectory;
+        return null;
     }
 }

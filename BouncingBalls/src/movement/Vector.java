@@ -17,6 +17,10 @@ public class Vector {
         countModules();
     }
 
+    public Vector copy(){
+        return new Vector(this.beginX, this.beginY, this.endX, this.endY);
+    }
+
     private void countModules(){
         this.moduleX = this.endX - this.beginX;
         this.moduleY = this.endY - this.beginY;
@@ -26,6 +30,12 @@ public class Vector {
         this.beginY = this.endY;
         this.endX += moduleX;
         this.endY += moduleY;
+    }
+    public void transfer(double newX, double newY){
+        this.beginX = newX;
+        this.beginY = newY;
+        this.endX = newX + moduleX;
+        this.endY = newY + moduleY;
     }
 
     public void reverse() {
