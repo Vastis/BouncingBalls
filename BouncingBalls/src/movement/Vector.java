@@ -1,7 +1,5 @@
 package movement;
 
-import javafx.geometry.Point2D;
-
 public class Vector {
 
     private double  beginX,
@@ -16,13 +14,6 @@ public class Vector {
         this.beginY = beginY;
         this.endX = endX;
         this.endY = endY;
-        countModules();
-    }
-    public Vector(Point2D begin, Point2D end){
-        this.beginX = begin.getX();
-        this.beginY = begin.getY();
-        this.endX = end.getX();
-        this.endY = end.getY();
         countModules();
     }
 
@@ -63,22 +54,18 @@ public class Vector {
         this.endY += vector.getModuleY();
         countModules();
     }
-    public void multiply(double scalar){
+    public void multiplyX(double scalar){
         this.moduleX *= scalar;
-        this.moduleY *= scalar;
         this.endX = this.beginX + this.moduleX;
+    }
+    public void multiplyY(double scalar){
+        this.moduleY *= scalar;
         this.endY = this.beginY + this.moduleY;
     }
-
-    /*public static Vector revert(Vector vector){
-        return new Vector(vector.getBeginX(), vector.getBeginY(), vector.getEndX() - 2 * vector.getModuleX(), vector.getEndY() - 2 * vector.getModuleY());
+    public void multiply(double scalar){
+        multiplyX(scalar);
+        multiplyY(scalar);
     }
-    public static Vector add(Vector vector1, Vector vector2){
-        return new Vector(vector1.getBeginX(), vector1.getBeginY(), vector1.getEndX() + vector2.getModuleY(), vector1.getEndY() + vector2.getModuleY());
-    }
-    public static Vector multiply(Vector vector1, double scalar){
-        return new Vector(vector1.getBeginX(), vector1.getBeginY(), vector1.getEndX() * scalar, vector1.getEndY() * scalar);
-    }*/
 
     public double getBeginX() {
         return beginX;
@@ -97,12 +84,6 @@ public class Vector {
     }
     public double getModuleY() {
         return moduleY;
-    }
-    public Point2D getBeginPoint(){
-        return new Point2D(this.beginX, this.beginY);
-    }
-    public Point2D getEndPoint(){
-        return new Point2D(this.endX, this.endY);
     }
     public void setBeginX(double beginX) {
         this.beginX = beginX;

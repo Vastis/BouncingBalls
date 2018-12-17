@@ -1,14 +1,14 @@
-package collisionManagement;
+package boundsCollisionManagement;
 
 import simObjects.Ball;
 import simObjects.Bounds;
 
-public class CollisionDetector {
+public class BoundsCollisionDetector {
 
     private Ball ball;
     private Bounds bounds;
 
-    public CollisionDetector(Ball ball, Bounds bounds){
+    public BoundsCollisionDetector(Ball ball, Bounds bounds){
         this.ball = ball;
         this.bounds = bounds;
     }
@@ -20,13 +20,13 @@ public class CollisionDetector {
         if(ball.getDefiningVector().getModuleX() != 0){
             //if ball goes right check if it's gonna collide with right bound
             if(ball.getDefiningVector().getModuleX() > 0){
-                if(ball.getDefiningVector().getEndX() >= bounds.getRightBound())
+                if(ball.getDefiningVector().getEndX() + ball.getBall().getRadiusX() >= bounds.getRightBound())
                     pX = 1;
             }
             //if ball goes left check if it's gonna collide with left bound
             else {
                 if(ball.getDefiningVector().getEndX() <= bounds.getLeftBound())
-                    pX = 1;
+                    pX = 2;
             }
         }
 
@@ -35,13 +35,13 @@ public class CollisionDetector {
         if(ball.getDefiningVector().getModuleY() != 0){
             //if ball goes down check if it's gonna collide with lower bound
             if(ball.getDefiningVector().getModuleY() > 0){
-                if(ball.getDefiningVector().getEndY() >= bounds.getLowerBound())
-                    pY = 2;
+                if(ball.getDefiningVector().getEndY() + ball.getBall().getRadiusY() >= bounds.getLowerBound())
+                    pY = 3;
             }
             //if ball goes up check if it's gonna collide with upper bound
             else {
                 if(ball.getDefiningVector().getEndY() <= bounds.getUpperBound())
-                    pY = 2;
+                    pY = 4;
             }
         }
 

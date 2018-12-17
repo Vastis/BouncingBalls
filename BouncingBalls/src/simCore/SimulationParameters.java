@@ -16,15 +16,6 @@ public class SimulationParameters {
         this.initSpeed = initSpeed;
     }
 
-    ////////tmp//////////
-    public void printParams(){
-        System.out.println("Left balls: " + leftBalls);
-        System.out.println("Right balls: " + rightBalls);
-        System.out.println("Gravity: " + gravity);
-        System.out.println("Init balls' speed: " + initSpeed);
-    }
-    ////////////////////
-
     public int getLeftBalls() {
         return leftBalls;
     }

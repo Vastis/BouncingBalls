@@ -7,7 +7,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
+import javafx.scene.shape.Ellipse;
+import javafx.scene.shape.Rectangle;
 import simCore.SimulationManager;
 import simCore.SimulationParameters;
 
@@ -19,9 +22,9 @@ import simCore.SimulationParameters;
 public class MainWindowController {
 
     @FXML
-    private Canvas mainCanvas;
+    private AnchorPane drawingPanel;
     @FXML
-    private AnchorPane managementPanel;
+    private Rectangle bounds;
     @FXML
     private TextField   leftSideBallsTextField,
                         rightSideBallsTextField,
@@ -30,11 +33,9 @@ public class MainWindowController {
     @FXML
     private Button startButton;
 
-    public MainWindowController(){ }
     @FXML
     protected void initialize(){
-        mainCanvas.getGraphicsContext2D().setFill(Paint.valueOf("black"));
-        mainCanvas.getGraphicsContext2D().fillRect(0,0, mainCanvas.getWidth(), mainCanvas.getHeight());
+        bounds.setFill(Color.BLACK);
     }
 
     @FXML
@@ -46,12 +47,9 @@ public class MainWindowController {
                     Double.parseDouble(gravityTextField.getText().replace(',', '.')),
                     Double.parseDouble(initBallsSpeedTextField.getText().replace(',', '.'))
             );
-            ////////tmp//////////
-            simParams.printParams();
-            /////////////////////
             startButton.setDisable(true);
 
-            SimulationManager simManager = new SimulationManager(mainCanvas, simParams);
+            SimulationManager simManager = new SimulationManager(drawingPanel, bounds, simParams);
             simManager.runSimulation();
 
         } catch(NumberFormatException e) {

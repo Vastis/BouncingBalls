@@ -1,7 +1,7 @@
 package simCore;
 
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.shape.Rectangle;
 import movement.Gravity;
 import random.Generator;
 import random.RangeException;
@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 public class SimulationEnvironment {
 
-    private Canvas canvas;
+    private AnchorPane drawingPanel;
     private SimulationParameters simParams;
     private Generator generator;
 
@@ -21,16 +21,16 @@ public class SimulationEnvironment {
     private Gravity gravity;
 
 
-    public SimulationEnvironment(Canvas canvas, SimulationParameters simParams){
-        this.canvas = canvas;
+    public SimulationEnvironment(AnchorPane drawingPanel, Rectangle bounds, SimulationParameters simParams){
+        this.drawingPanel = drawingPanel;
         this.simParams = simParams;
-        prepareEnvironment();
+        prepareEnvironment(bounds);
     }
 
-    private void prepareEnvironment(){
+    private void prepareEnvironment(Rectangle bounds){
         initialize();
         try {
-            setBounds();
+            setBounds(bounds);
             generateBalls();
         } catch (RangeException e){}
     }
@@ -40,9 +40,9 @@ public class SimulationEnvironment {
         this.balls = new ArrayList<>();
         this.gravity = new Gravity(simParams.getGravity());
     }
-    private void setBounds() throws RangeException {
+    private void setBounds(Rectangle bounds) throws RangeException {
         double bounceCoefficient = generator.nextDouble(0.8, 0.99);
-        this.bounds = new Bounds(canvas, bounceCoefficient);
+        this.bounds = new Bounds(bounds, bounceCoefficient);
     }
     private void generateBalls(){
         for(int i = 0; i < simParams.getLeftBalls(); i++){
@@ -51,17 +51,13 @@ public class SimulationEnvironment {
         for(int i = 0; i < simParams.getRightBalls(); i++){
             balls.add(new Ball(true, simParams.getInitSpeed(), bounds, gravity));
         }
+        for(Ball ball : balls)
+            drawingPanel.getChildren().add(ball.getBall());
     }
 
     public void update(){
         for(Ball ball : balls){
             ball.update();
-        }
-    }
-
-    public void draw(GraphicsContext gc){
-        for(Ball ball : balls){
-            ball.draw(gc);
         }
     }
 

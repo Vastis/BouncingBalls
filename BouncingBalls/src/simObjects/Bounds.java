@@ -1,36 +1,33 @@
 package simObjects;
 
-import javafx.scene.canvas.Canvas;
+import javafx.scene.shape.Rectangle;
 
 public class Bounds {
 
-    private double  upperBound,
-                    lowerBound,
-                    leftBound,
-                    rightBound;
+    private Rectangle bounds;
     private double  bounceCoefficient;
 
-    public Bounds(Canvas canvas, double bounceCoefficient){
-        this.upperBound = 1;
-        this.lowerBound = canvas.getHeight() - 1;
-        this.leftBound = 1;
-        this.rightBound = canvas.getWidth() - 1;
+    public Bounds(Rectangle bounds, double bounceCoefficient){
+        this.bounds = bounds;
         this.bounceCoefficient = bounceCoefficient;
     }
 
-    public double getUpperBound() {
-        return upperBound;
-    }
-    public double getLowerBound() {
-        return lowerBound;
-    }
-    public double getLeftBound() {
-        return leftBound;
-    }
-    public double getRightBound() {
-        return rightBound;
+    public Rectangle getBounds() {
+        return bounds;
     }
     public double getBounceCoefficient() {
         return bounceCoefficient;
+    }
+    public double getRightBound(){
+        return this.bounds.getWidth();
+    }
+    public double getLeftBound(){
+        return 0;
+    }
+    public double getLowerBound(){
+        return this.bounds.getHeight();
+    }
+    public double getUpperBound(){
+        return 0;
     }
 }
