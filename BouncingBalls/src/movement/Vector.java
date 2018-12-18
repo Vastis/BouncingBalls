@@ -1,5 +1,12 @@
 package movement;
 
+/**
+ *  Vector definition and operations.
+ *  Vectors define objects':
+ *      - current position (begin),
+ *      - future position (end),
+ *      - velocity (module).
+ */
 public class Vector {
 
     private double  beginX,
@@ -37,7 +44,6 @@ public class Vector {
         this.endX = newX + moduleX;
         this.endY = newY + moduleY;
     }
-
     public void reverse() {
         double tmpX = this.beginX, tmpY = this.beginY;
         this.beginX = this.endX;

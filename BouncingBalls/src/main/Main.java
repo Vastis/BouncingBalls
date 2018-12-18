@@ -9,7 +9,7 @@ import javafx.stage.Stage;
 import java.util.ArrayList;
 
 /**
- * Main ( is there any need to write anything else? ;) )
+ * Main
  */
 
 public class Main extends Application {

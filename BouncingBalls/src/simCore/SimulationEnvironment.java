@@ -10,16 +10,17 @@ import simObjects.Bounds;
 
 import java.util.ArrayList;
 
+/**
+ * Used for holding and controlling simulation objects.
+ */
 public class SimulationEnvironment {
 
     private AnchorPane drawingPanel;
     private SimulationParameters simParams;
     private Generator generator;
-
     private ArrayList<Ball> balls;
     private Bounds bounds;
     private Gravity gravity;
-
 
     public SimulationEnvironment(AnchorPane drawingPanel, Rectangle bounds, SimulationParameters simParams){
         this.drawingPanel = drawingPanel;
@@ -34,7 +35,6 @@ public class SimulationEnvironment {
             generateBalls();
         } catch (RangeException e){}
     }
-
     private void initialize(){
         this.generator = new Generator();
         this.balls = new ArrayList<>();
@@ -46,13 +46,15 @@ public class SimulationEnvironment {
     }
     private void generateBalls(){
         for(int i = 0; i < simParams.getLeftBalls(); i++){
-            balls.add(new Ball(false, simParams.getInitSpeed(), bounds, gravity));
+            Ball ball = new Ball(false, simParams.getInitSpeed(), bounds, gravity);
+            balls.add(ball);
+            drawingPanel.getChildren().add(ball.getBall());
         }
         for(int i = 0; i < simParams.getRightBalls(); i++){
-            balls.add(new Ball(true, simParams.getInitSpeed(), bounds, gravity));
-        }
-        for(Ball ball : balls)
+            Ball ball = new Ball(true, simParams.getInitSpeed(), bounds, gravity);
+            balls.add(ball);
             drawingPanel.getChildren().add(ball.getBall());
+        }
     }
 
     public void update(){

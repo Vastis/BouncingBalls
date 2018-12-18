@@ -2,6 +2,9 @@ package simObjects;
 
 import javafx.scene.shape.Rectangle;
 
+/**
+ * Simulation "bounds".
+ */
 public class Bounds {
 
     private Rectangle bounds;
@@ -12,9 +15,6 @@ public class Bounds {
         this.bounceCoefficient = bounceCoefficient;
     }
 
-    public Rectangle getBounds() {
-        return bounds;
-    }
     public double getBounceCoefficient() {
         return bounceCoefficient;
     }

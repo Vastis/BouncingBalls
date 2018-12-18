@@ -1,6 +1,6 @@
 package simObjects;
 
-import animations.BallTrajectoryFactory;
+import boundsCollisionManagement.BallTrajectoryFactory;
 import boundsCollisionManagement.BoundsCollisionManager;
 import javafx.animation.PathTransition;
 import javafx.scene.paint.Color;
@@ -11,6 +11,9 @@ import movement.Vector;
 import random.Generator;
 import random.RangeException;
 
+/**
+ * Simulation object within simulation bounds.
+ */
 public class Ball {
 
     private final Color[] colors = {
@@ -21,20 +24,14 @@ public class Ball {
             Color.ORANGE
     };
 
-    private double mass;
-
-    //beginX, beginY - current position
-    //endX, endY - future position
-    //moduleX, moduleY - "velocity"
-    private Vector  definingVector, lastDefiningVector;
-    private Ellipse ball;
-
-    private BallTrajectoryFactory ballTrajectoryFactory;
-    private BoundsCollisionManager boundsCollisionManager;
-
-    private Bounds bounds;
-    private Gravity gravity;
-
+    private Ellipse                 ball;
+    private Vector                  definingVector,
+                                    lastDefiningVector;
+    private Bounds                  bounds;
+    private Gravity                 gravity;
+    private double                  mass;
+    private BallTrajectoryFactory   ballTrajectoryFactory;
+    private BoundsCollisionManager  boundsCollisionManager;
 
     public Ball(boolean startingRight, double initSpeedParam, Bounds bounds, Gravity gravity){
         this.bounds = bounds;
@@ -90,7 +87,7 @@ public class Ball {
         gravity.gravitize(this);
         ballTrajectoryFactory.newTrajectory();
 
-        Path trajectory = boundsCollisionManager.adjustTrajectory();
+        Path trajectory = boundsCollisionManager.computeTrajectory();
         move(trajectory);
     }
 
@@ -107,12 +104,13 @@ public class Ball {
     public Vector getLastDefiningVector() {
         return lastDefiningVector;
     }
-
     public Ellipse getBall() {
         return ball;
     }
-
     public BallTrajectoryFactory getBallTrajectoryFactory() {
         return ballTrajectoryFactory;
+    }
+    public double getMass() {
+        return mass;
     }
 }

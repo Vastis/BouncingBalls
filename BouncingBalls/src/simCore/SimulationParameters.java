@@ -1,7 +1,7 @@
 package simCore;
 
 /**
- * Class containing User- and non-User-defined simulation parameters.
+ * Contains User- and non-User-defined simulation parameters.
  */
 
 public class SimulationParameters {

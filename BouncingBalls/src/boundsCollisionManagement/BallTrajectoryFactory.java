@@ -1,4 +1,4 @@
-package animations;
+package boundsCollisionManagement;
 
 import javafx.animation.PathTransition;
 import javafx.scene.shape.MoveTo;
@@ -8,7 +8,9 @@ import javafx.util.Duration;
 import simObjects.Ball;
 import simObjects.Bounds;
 
-
+/**
+ * Computes ball's movement trajectory according to the ball's defining vector.
+ */
 /*
     x,y - destination coordinates
     p,q - vertex coordinates
@@ -45,18 +47,59 @@ public class BallTrajectoryFactory {
         this.trajectory = generateBallTrajectory();
     }
 
-    public Path bounceTrajectory(double boundsCoordinate, boolean horizontalBounce){
-        double quadCoefficient = ball.getDefiningVector().getModuleY() / (ball.getDefiningVector().getModuleX() * ball.getDefiningVector().getModuleX());
-        double bounceX = 0, bounceY = 0;
+    public Path bounceLeft(){
+        double quadCoefficient = computeQuadCoefficient();
+        double bounceX = bounds.getRightBound();
+        double bounceY = quadCoefficient * (bounceX - ball.getDefiningVector().getBeginX()) / 2 * (bounceX - ball.getDefiningVector().getBeginX()) / 2 + ball.getDefiningVector().getBeginY();
 
-        if(horizontalBounce){
-            bounceX = boundsCoordinate;
-            bounceY = quadCoefficient * (bounceX - ball.getDefiningVector().getBeginX()) / 2 * (bounceX - ball.getDefiningVector().getBeginX()) / 2 + ball.getDefiningVector().getBeginY();
-        } else {
-            bounceY = boundsCoordinate;
-            bounceX = Math.signum(ball.getDefiningVector().getModuleX()) * Math.sqrt((bounceY - ball.getDefiningVector().getBeginY())/quadCoefficient) + ball.getDefiningVector().getBeginX();
-        }
+        Path bouncedTrajectory = computeBouncePath(quadCoefficient, bounceX, bounceY);
 
+        ball.getDefiningVector().reflectByY();
+        bouncedTrajectory.getElements().addAll(generateBallTrajectory().getElements());
+
+        return bouncedTrajectory;
+    }
+    public Path bounceRight(){
+        double quadCoefficient = computeQuadCoefficient();
+        double bounceX = bounds.getLeftBound();
+        double bounceY = quadCoefficient * (bounceX - ball.getDefiningVector().getBeginX()) / 2 * (bounceX - ball.getDefiningVector().getBeginX()) / 2 + ball.getDefiningVector().getBeginY();
+
+        Path bouncedTrajectory = computeBouncePath(quadCoefficient, bounceX, bounceY);
+
+        ball.getDefiningVector().reflectByY();
+        bouncedTrajectory.getElements().addAll(generateBallTrajectory().getElements());
+
+        return bouncedTrajectory;
+    }
+    public Path bounceUp(){
+        double quadCoefficient = computeQuadCoefficient();
+        double bounceY = bounds.getLowerBound();
+        double bounceX = Math.signum(ball.getDefiningVector().getModuleX()) * Math.sqrt((bounceY - ball.getDefiningVector().getBeginY())/quadCoefficient) + ball.getDefiningVector().getBeginX();
+
+        Path bouncedTrajectory = computeBouncePath(quadCoefficient, bounceX, bounceY);
+
+        ball.getDefiningVector().reflectByX();
+        bouncedTrajectory.getElements().addAll(generateBallTrajectory().getElements());
+
+        return bouncedTrajectory;
+    }
+    public Path bounceDown(){
+        double quadCoefficient = computeQuadCoefficient();
+        double bounceY = bounds.getUpperBound();
+        double bounceX = Math.signum(ball.getDefiningVector().getModuleX()) * Math.sqrt((bounceY - ball.getDefiningVector().getBeginY())/quadCoefficient) + ball.getDefiningVector().getBeginX();
+
+        Path bouncedTrajectory = computeBouncePath(quadCoefficient, bounceX, bounceY);
+
+        ball.getDefiningVector().reflectByX();
+        bouncedTrajectory.getElements().addAll(generateBallTrajectory().getElements());
+
+        return bouncedTrajectory;
+    }
+
+    private double computeQuadCoefficient(){
+        return ball.getDefiningVector().getModuleY() / (ball.getDefiningVector().getModuleX() * ball.getDefiningVector().getModuleX());
+    }
+    public Path computeBouncePath(double quadCoefficient, double bounceX, double bounceY){
         double controlX = (bounceX + ball.getDefiningVector().getBeginX()) / 2;
         double controlY = quadCoefficient * (controlX - ball.getDefiningVector().getBeginX()) / 2 * (controlX - ball.getDefiningVector().getBeginX()) / 2 + ball.getDefiningVector().getBeginY();
 
@@ -64,18 +107,8 @@ public class BallTrajectoryFactory {
         bouncedTrajectory.getElements().add(new MoveTo(ball.getDefiningVector().getBeginX(), ball.getDefiningVector().getBeginY()));
         bouncedTrajectory.getElements().add(new QuadCurveTo(controlX, controlY, bounceX, bounceY));
 
-        double bounceRatio = (bounceX - ball.getDefiningVector().getBeginX())/ball.getDefiningVector().getModuleX();
-
         ball.getDefiningVector().transfer(bounceX, bounceY);
-
         ball.getDefiningVector().multiply(bounds.getBounceCoefficient());
-
-        if(horizontalBounce)
-            ball.getDefiningVector().reflectByY();
-        else
-            ball.getDefiningVector().reflectByX();
-        System.out.println();
-        bouncedTrajectory.getElements().addAll(generateBallTrajectory().getElements());
 
         return bouncedTrajectory;
     }

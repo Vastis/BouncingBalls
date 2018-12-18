@@ -8,52 +8,33 @@ public class BoundsCollisionManager {
 
     private Ball ball;
     private BoundsCollisionDetector boundsCollisionDetector;
-    private BoundsCollisionResponder boundsCollisionResponder;
 
     public BoundsCollisionManager(Ball ball, Bounds bounds){
         this.ball = ball;
         boundsCollisionDetector = new BoundsCollisionDetector(ball, bounds);
-        boundsCollisionResponder = new BoundsCollisionResponder(ball, bounds);
     }
 
-    /*public void checkCollision(Path trajectory){
+    public Path computeTrajectory(){
         int collisionType = boundsCollisionDetector.detectBoundsCollision();
 
-        //TODO
-        switch (collisionType){
-            //no collision
-            case 0:
-                break;
-            //right & left collision
-            case 1: case 2:
-                boundsCollisionResponder.horizontalBounce(trajectory);
-                break;
-            //lower & upper collision
-            case 3: case 4:
-                boundsCollisionResponder.verticalBounce(trajectory);
-                break;
-        }
-    }*/
-
-    public Path adjustTrajectory(){
-        int collisionType = boundsCollisionDetector.detectBoundsCollision();
-
-        //TODO
         switch (collisionType){
             //no collision
             case 0:
                 return ball.getBallTrajectoryFactory().getTrajectory();
-            //right & left collision
+            //right collision
             case 1:
-                return boundsCollisionResponder.rightBounce();
+                return ball.getBallTrajectoryFactory().bounceLeft();
+            //left collision
             case 2:
-                return boundsCollisionResponder.leftBounce();
-            //lower & upper collision
+                return ball.getBallTrajectoryFactory().bounceRight();
+            //lower collision
             case 3:
-                return boundsCollisionResponder.lowerBounce();
+                return ball.getBallTrajectoryFactory().bounceUp();
+            //upper collision
             case 4:
-                return boundsCollisionResponder.upperBounce();
+                return ball.getBallTrajectoryFactory().bounceDown();
         }
+
         return null;
     }
 }

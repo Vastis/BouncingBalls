@@ -22,9 +22,9 @@ public class SimulationManager {
     }
 
     private void simulationLoop() {
-        double fps = 10.0;
+        double ticks = 10.0;
         long lastTime = System.nanoTime();
-        final double ns = 1000000000.0 / fps;
+        final double ns = 1000000000.0 / ticks;
         double delta = 0;
 
         while (Main.running) {
